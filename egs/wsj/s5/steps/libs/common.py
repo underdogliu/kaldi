@@ -124,7 +124,7 @@ def execute_command(command):
     """
     p = subprocess.Popen(command, shell=True)
     p.communicate()
-    if p.returncode is not 0:
+    if p.returncode != 0:
         raise Exception("Command exited with status {0}: {1}".format(
                 p.returncode, command))
 
@@ -144,7 +144,7 @@ def get_command_stdout(command, require_zero_status = True):
                          stdout=subprocess.PIPE)
 
     stdout = p.communicate()[0]
-    if p.returncode is not 0:
+    if p.returncode != 0:
         output = "Command exited with status {0}: {1}".format(
             p.returncode, command)
         if require_zero_status:
@@ -200,7 +200,7 @@ def background_command_waiter(command, popen_object, require_zero_status):
         a separate thread."""
 
     popen_object.communicate()
-    if popen_object.returncode is not 0:
+    if popen_object.returncode != 0:
         str = "Command exited with status {0}: {1}".format(
             popen_object.returncode, command)
         if require_zero_status:
@@ -340,7 +340,7 @@ def write_matrix_ascii(file_or_fd, mat, key=None):
         fd = file_or_fd
 
     try:
-        if key is not None:
+        if key != None:
             print ("{0} [".format(key),
                    file=fd)  # ark-files have keys (utterance-id)
         else:
@@ -359,7 +359,7 @@ def write_matrix_ascii(file_or_fd, mat, key=None):
                 line += " ]"
             print (line, file=fd)
     finally:
-        if fd is not file_or_fd : fd.close()
+        if fd != file_or_fd : fd.close()
 
 
 def read_matrix_ascii(file_or_fd):
@@ -381,7 +381,7 @@ def read_matrix_ascii(file_or_fd):
             "Kaldi matrix file %s has incorrect format, "
             "only text format matrix files can be read by this script",
             fname)
-        if fd is not file_or_fd: fd.close()
+        if fd != file_or_fd: fd.close()
         raise RuntimeError
 
     rows = []
@@ -390,7 +390,7 @@ def read_matrix_ascii(file_or_fd):
         if not line:
             logger.error("Kaldi matrix file %s has incorrect format; "
                          "got EOF before end of matrix", fname)
-            if fd is not file_or_fd: fd.close()
+            if fd != file_or_fd: fd.close()
             raise RuntimeError
         line = line.strip()
         if len(line) == 0 : continue # skip empty line
@@ -399,7 +399,7 @@ def read_matrix_ascii(file_or_fd):
             rows.append([float(x) for x in arr])  # not last line
         else:
             rows.append([float(x) for x in arr[:-1]])  # lastline
-            if fd is not file_or_fd: fd.close()
+            if fd != file_or_fd: fd.close()
             return rows
 
 
@@ -444,7 +444,7 @@ def read_mat_ark(file_or_fd):
           yield key, mat
           key = read_key(fd)
     finally:
-        if fd is not file_or_fd:
+        if fd != file_or_fd:
             fd.close()
 
 
